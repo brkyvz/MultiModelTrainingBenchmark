@@ -7,16 +7,12 @@ object Benchmark {
 
   def main(args: Array[String]) {
 
-    println("Girdi!")
-
     if (args.length != 10) {
       println("Usage: MultiModelBenchmark " +
         "<iteration-count> <step_size-count> <regParam-count> <num_examples> <num_features> " +
         "<num_partitions> <seed> <useSparsity> <sparsity> <linear>")
       System.exit(1)
     }
-    println("Anladi!")
-
     val iterCount: Int = args(0).toInt
     val ssCount: Int = args(1).toInt
     val regCount: Int = args(2).toInt
