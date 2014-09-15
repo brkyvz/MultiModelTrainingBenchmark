@@ -3,7 +3,8 @@ import org.apache.spark.mllib.optimization._
 import org.apache.spark.SparkContext
 import util.DataGenerator
 
-class Benchmark {
+object Benchmark {
+
   def main(args: Array[String]) {
 
     println("Girdi!")
