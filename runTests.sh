@@ -16,10 +16,7 @@ export MC=1000000
 export NC=100
 export SP=0.05
 
-if [ $SKIP = 0 ]; then
-# Scale Rows Tests
 for ROWS in ${NUM_ROWS[@]}; do
-#  echo $ENV
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $ROWS $NC $PARTS $SEED true $SP true \
     2>&1 | tee -a tests.out
@@ -28,7 +25,44 @@ for ROWS in ${NUM_ROWS[@]}; do
     $ITER $STEP $REG $ROWS $NC $PARTS $SEED false $SP true \
     2>&1 | tee -a tests.out
 done
-fi
+
+for COLS in ${NUM_COLS[@]}; do
+  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+    $ITER $STEP $REG $MC $COLS $PARTS $SEED true $SP true \
+    2>&1 | tee -a tests.out
+
+  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+    $ITER $STEP $REG $MC $COLS $PARTS $SEED false $SP true \
+    2>&1 | tee -a tests.out
+done
+
+for RHO in ${SPARSITY[@]}; do
+  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+    $ITER $STEP $REG $MC $NC $PARTS $SEED true $RHO true \
+    2>&1 | tee -a tests.out
+
+  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+    $ITER $STEP $REG $MC $NC $PARTS $SEED false $RHO true \
+    2>&1 | tee -a tests.out
+
+done
+
+export NUM_COLS=( 10000 100000 1000000 )
+export NUM_ROWS=( 100 1000 10000 100000 )
+
+export NC=100000
+export MC=1000
+
+
+for ROWS in ${NUM_ROWS[@]}; do
+  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+    $ITER $STEP $REG $ROWS $NC $PARTS $SEED true $SP true \
+    2>&1 | tee -a tests.out
+
+  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+    $ITER $STEP $REG $ROWS $NC $PARTS $SEED false $SP true \
+    2>&1 | tee -a tests.out
+done
 
 for COLS in ${NUM_COLS[@]}; do
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
