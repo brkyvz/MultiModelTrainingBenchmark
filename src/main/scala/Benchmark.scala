@@ -29,10 +29,10 @@ object Benchmark {
     val dataRDD =
       if (linearModel) {
         DataGenerator.generateLabeledPoints(sc, nexamples, nfeatures, 0.0, eps, nparts, seed,
-          useSparse = isSparse, density = howSparse).map( e => (e.label, e.features))
+          useSparse = true, density = howSparse).map( e => (e.label, e.features))
       } else {
         DataGenerator.generateClassificationLabeledPoints(sc, nexamples, nfeatures, 0.0, eps, nparts, seed,
-          useSparse = isSparse, density = howSparse).map( e => (e.label, e.features))
+          useSparse = true, density = howSparse).map( e => (e.label, e.features))
       }
 
     dataRDD.cache()
