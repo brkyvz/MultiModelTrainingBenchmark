@@ -90,7 +90,8 @@ object Benchmark {
       numIterations,
       regParam,
       miniBatchFrac,
-      Vectors.dense(initialWeights))
+      Vectors.dense(initialWeights),
+      useSparse = isSparse)
     val durMM = System.currentTimeMillis() - startMM
 
     println(s"$iterCount\t$ssCount\t$regCount\t$nexamples\t$nfeatures\t$nparts\t$seed\t$isSparse\t$howSparse\t" +
