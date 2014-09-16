@@ -38,8 +38,6 @@ object Benchmark {
     dataRDD.cache()
     val numExamps = dataRDD.count()
 
-    println(s"Num Examples: $numExamps")
-
     val initialWeights = Array.fill(nfeatures)(0.0)
 
     val numModels = ssCount * regCount
