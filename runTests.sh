@@ -13,6 +13,8 @@ export STEP=4
 export REG=4
 export PARTS=64
 
+export DRIVER_MEM="200g"
+
 export MC=1000000
 export NC=500
 export SP=0.05
@@ -20,31 +22,31 @@ export BL=64
 export exit=1
 if [ $exit = 0 ]; then
 for ROWS in ${NUM_ROWS[@]}; do
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $ROWS $NC $BL $PARTS $SEED true $SP true \
     2>>log.txt | tee -a tests.out
 
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $ROWS $NC $BL $PARTS $SEED false $SP true \
     2>>log.txt | tee -a tests.out
 done
 
 for COLS in ${NUM_COLS[@]}; do
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $COLS $BL $PARTS $SEED true $SP true \
     2>>log.txt | tee -a tests.out
 
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $COLS $BL $PARTS $SEED false $SP true \
     2>>log.txt | tee -a tests.out
 done
 
 for RHO in ${SPARSITY[@]}; do
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $NC $BL $PARTS $SEED true $RHO true \
     2>>log.txt | tee -a tests.out
 
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $NC $BL $PARTS $SEED false $RHO true \
     2>>log.txt | tee -a tests.out
 
@@ -52,7 +54,7 @@ done
 fi
 
 for BLOCKS in ${BLOCK_SIZE[@]}; do
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $NC $BLOCKS $PARTS $SEED true $SP true \
     2>>log.txt | tee -a tests.out
 done
@@ -66,31 +68,31 @@ export MC=500
 export exit=1
 if [ $exit = 0 ]; then
 for ROWS in ${NUM_ROWS[@]}; do
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $ROWS $NC $BL $PARTS $SEED true $SP true \
     2>>log.txt | tee -a tests.out
 
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $ROWS $NC $BL $PARTS $SEED false $SP true \
     2>>log.txt | tee -a tests.out
 done
 
 for COLS in ${NUM_COLS[@]}; do
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $COLS $BL $PARTS $SEED true $SP true \
     2>>log.txt | tee -a tests.out
 
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $COLS $BL $PARTS $SEED false $SP true \
     2>>log.txt | tee -a tests.out
 done
 
 for RHO in ${SPARSITY[@]}; do
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $NC $BL $PARTS $SEED true $RHO true \
     2>>log.txt | tee -a tests.out
 
-  $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
+  $SPARK/bin/spark-submit --class Benchmark --driver-memory $DRIVER_MEM target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $NC $BL $PARTS $SEED false $RHO true \
     2>>log.txt | tee -a tests.out
 
