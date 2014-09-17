@@ -19,31 +19,31 @@ export SP=0.05
 for ROWS in ${NUM_ROWS[@]}; do
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $ROWS $NC $PARTS $SEED true $SP true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $ROWS $NC $PARTS $SEED false $SP true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 done
 
 for COLS in ${NUM_COLS[@]}; do
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $COLS $PARTS $SEED true $SP true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $COLS $PARTS $SEED false $SP true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 done
 
 for RHO in ${SPARSITY[@]}; do
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $NC $PARTS $SEED true $RHO true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $NC $PARTS $SEED false $RHO true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 
 done
 
@@ -57,30 +57,30 @@ export MC=500
 for ROWS in ${NUM_ROWS[@]}; do
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $ROWS $NC $PARTS $SEED true $SP true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $ROWS $NC $PARTS $SEED false $SP true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 done
 
 for COLS in ${NUM_COLS[@]}; do
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $COLS $PARTS $SEED true $SP true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $COLS $PARTS $SEED false $SP true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 done
 
 for RHO in ${SPARSITY[@]}; do
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $NC $PARTS $SEED true $RHO true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 
   $SPARK/bin/spark-submit --class Benchmark target/mm_benchmark.jar \
     $ITER $STEP $REG $MC $NC $PARTS $SEED false $RHO true \
-    2>&1 | tee -a tests.out
+    2>>log.txt | tee -a tests.out
 
 done
