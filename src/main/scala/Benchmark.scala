@@ -51,7 +51,7 @@ object Benchmark {
     val regParam = Array.tabulate(regCount)(i => 0.01 + 0.01 * i)
     val numIterations = Array.tabulate(iterCount)(i => 10 + 10 * i)
     val miniBatchFrac = 1.0
-
+    /*
     val start = System.currentTimeMillis()
     (0 until iterCount).flatMap { j =>
       (0 until numModels).map { i =>
@@ -79,6 +79,18 @@ object Benchmark {
           Vectors.dense(initialWeights.clone()))
       }
     }
+    val durGD = System.currentTimeMillis() - start
+    */
+    val start = System.currentTimeMillis()
+    MultiModelGradientDescent.runMiniBatchMMSGDVec(
+      dataRDD,
+      mmgradient,
+      updaters,
+      stepSize,
+      numIterations,
+      regParam,
+      miniBatchFrac,
+      Vectors.dense(initialWeights.clone()))
     val durGD = System.currentTimeMillis() - start
 
     val startMM =  System.currentTimeMillis()
