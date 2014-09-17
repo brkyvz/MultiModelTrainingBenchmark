@@ -7,7 +7,7 @@ object Benchmark {
 
   def main(args: Array[String]) {
 
-    if (args.length != 10) {
+    if (args.length != 11) {
       println("Usage: MultiModelBenchmark " +
         "<iteration-count> <step_size-count> <regParam-count> <num_examples> <num_features> " +
         "<batchSize> <num_partitions> <seed> <useSparsity> <sparsity> <linear>")
