@@ -10,7 +10,7 @@ object Benchmark {
     if (args.length != 10) {
       println("Usage: MultiModelBenchmark " +
         "<iteration-count> <step_size-count> <regParam-count> <num_examples> <num_features> " +
-        "<num_partitions> <seed> <useSparsity> <sparsity> <linear>")
+        "<batchSize> <num_partitions> <seed> <useSparsity> <sparsity> <linear>")
       System.exit(1)
     }
     val iterCount: Int = args(0).toInt
@@ -18,11 +18,12 @@ object Benchmark {
     val regCount: Int = args(2).toInt
     val nexamples: Int = args(3).toInt
     val nfeatures: Int = args(4).toInt
-    val nparts: Int = args(5).toInt
-    val seed: Int = args(6).toInt
-    val isSparse: Boolean = args(7).toBoolean
-    val howSparse: Double = args(8).toDouble
-    val linearModel: Boolean = args(9).toBoolean
+    val batchS: Int = args(5).toInt
+    val nparts: Int = args(6).toInt
+    val seed: Int = args(7).toInt
+    val isSparse: Boolean = args(8).toBoolean
+    val howSparse: Double = args(9).toDouble
+    val linearModel: Boolean = args(10).toBoolean
     val eps = 3
 
     val sc = new SparkContext()
@@ -43,6 +44,7 @@ object Benchmark {
     val numModels = ssCount * regCount
 
     val gradient = if (linearModel) new LeastSquaresGradient else new LogisticGradient
+    val vmgradient = new MultiModelLeastSquaresGradientv2
     val mmgradient = if (linearModel) new MultiModelLeastSquaresGradient else new MultiModelLogisticGradient
 
     val updaters = Array(new MultiModelSquaredL2Updater, new MultiModelL1Updater)
@@ -81,18 +83,6 @@ object Benchmark {
     }
     val durGD = System.currentTimeMillis() - start
     */
-    val start = System.currentTimeMillis()
-    MultiModelGradientDescent.runMiniBatchMMSGDVec(
-      dataRDD,
-      mmgradient,
-      updaters,
-      stepSize,
-      numIterations,
-      regParam,
-      miniBatchFrac,
-      Vectors.dense(initialWeights.clone()))
-    val durGD = System.currentTimeMillis() - start
-
     val startMM =  System.currentTimeMillis()
     MultiModelGradientDescent.runMiniBatchMMSGD(
       dataRDD,
@@ -103,11 +93,12 @@ object Benchmark {
       regParam,
       miniBatchFrac,
       Vectors.dense(initialWeights),
+      batchSize = batchS,
       useSparse = isSparse)
     val durMM = System.currentTimeMillis() - startMM
 
-    println(s"$iterCount\t$ssCount\t$regCount\t$nexamples\t$nfeatures\t$nparts\t$seed\t$isSparse\t$howSparse\t" +
-      s"$linearModel\t$durGD\t$durMM")
+    println(s"$iterCount\t$ssCount\t$regCount\t$nexamples\t$nfeatures\t$batchS\t$nparts\t$seed\t$isSparse" +
+      s"\t$howSparse\t$linearModel\t$durMM")
     sc.stop()
   }
 
